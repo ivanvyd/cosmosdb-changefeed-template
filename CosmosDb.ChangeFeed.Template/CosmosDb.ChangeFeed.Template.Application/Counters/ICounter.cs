@@ -3,4 +3,5 @@
 public interface ICounter
 {
     ValueTask<int> GetCountAsync();
+    ValueTask<int> GetCountAsync2();
 }

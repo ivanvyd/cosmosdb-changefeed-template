@@ -5,7 +5,11 @@ using Microsoft.Extensions.Options;
 
 namespace CosmosDb.ChangeFeed.Template.Application.Counters;
 
-public sealed class NewCounter(IOptions<AppSettingsOptions> appSettings, IRepositoriesFactory repositoriesFactory) : Counter(appSettings, repositoriesFactory)
+public sealed class NewCounter : Counter
 {
+    public NewCounter(IOptions<AppSettingsOptions> appSettings, IRepositoriesFactory repositoriesFactory)
+        : base(appSettings, repositoriesFactory)
+    { }
+
     protected override ProductStatus Status => ProductStatus.New;
 }

@@ -20,6 +20,15 @@ public sealed class ProductsController(IProductsService productsService) : Contr
     public async Task<ActionResult<Dictionary<ProductStatus, int>>> GetProductsCountsAsync()
         => Ok(await _productsService.GetProductsCountsAsync());
 
+    /// <summary>
+    /// Retrieves the counts of products based on their status (version 2).
+    /// </summary>
+    /// <returns>A dictionary containing the product status as the key and the count as the value.</returns>
+    [HttpGet("v2/counts")]
+    [ProducesResponseType(typeof(Dictionary<ProductStatus, int>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<Dictionary<ProductStatus, int>>> GetProductsCountsAsyncV2()
+        => Ok(await _productsService.GetProductsCountsAsyncV2());
+
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> CreateProductAsync([FromBody] ProductRequestModel productRequestModel)

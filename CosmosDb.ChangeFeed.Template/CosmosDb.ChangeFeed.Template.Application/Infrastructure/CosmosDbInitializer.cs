@@ -102,6 +102,7 @@ public sealed class CosmosDbInitializer
                 Id = Guid.NewGuid().ToString(),
                 Name = GenerateRandomName(random),
                 Status = GenerateRandomStatus(random),
+                Type = typeof(Product).AssemblyQualifiedName,
             };
 
             var task = container.CreateItemAsync(product, new PartitionKey(product.Id));

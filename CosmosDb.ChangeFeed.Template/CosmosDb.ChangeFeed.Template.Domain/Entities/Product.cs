@@ -4,7 +4,7 @@ namespace CosmosDb.ChangeFeed.Template.Domain.Entities;
 
 public sealed record Product : Document
 {
-    public required string Name { get; set; }
+    public string? Name { get; set; }
 
-    public required ProductStatus Status { get; set; }
+    public ProductStatus Status { get; set; }
 }

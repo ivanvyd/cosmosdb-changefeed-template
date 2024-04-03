@@ -37,6 +37,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<AppSettingsOptions>(builder.Configuration.GetSection(AppSettingsOptions.SectionName));
 
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.AddConsole();
+});
+
 var connectionString = configuration.GetConnectionString("CosmosDb");
 builder.Services.AddSingleton(provider =>
 {

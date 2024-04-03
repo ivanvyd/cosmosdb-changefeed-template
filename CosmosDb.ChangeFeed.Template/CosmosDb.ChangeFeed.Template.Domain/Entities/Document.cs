@@ -11,6 +11,8 @@ public record Document
     /// Gets or sets the required document ID.
     /// </summary>
     [JsonProperty("id")]
-    public required string Id { get; set; }
+    public string? Id { get; set; }
+
+    public string? Type { get; set; }
 }
 

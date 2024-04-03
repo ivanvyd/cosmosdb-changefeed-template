@@ -7,4 +7,5 @@ public interface IProductsService
 {
     Task CreateProductAsync(ProductRequestModel productRequestModel);
     Task<Dictionary<ProductStatus, int>> GetProductsCountsAsync();
+    Task<Dictionary<ProductStatus, int>> GetProductsCountsAsyncV2();
 }

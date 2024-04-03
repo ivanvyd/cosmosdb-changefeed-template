@@ -11,5 +11,7 @@ public interface IRepository
     Task<Product?> GetAsync(string id);
     Task<List<string>> GetByStatusAsync(ProductStatus status);
     Task<int> GetCountByStatusAsync(ProductStatus status);
+    Task<int> GetCountFromCounter(ProductStatus status);
     Task UpdateAsync(Product product);
+    Task UpsertCounter(ProductStatus productStatus, int count);
 }

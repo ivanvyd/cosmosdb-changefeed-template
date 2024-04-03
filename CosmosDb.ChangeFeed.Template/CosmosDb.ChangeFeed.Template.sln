@@ -10,6 +10,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CosmosDb.ChangeFeed.Templat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CosmosDb.ChangeFeed.Template.Persistence", "CosmosDb.ChangeFeed.Template.Persistence\CosmosDb.ChangeFeed.Template.Persistence.csproj", "{372C061C-8B7F-4E11-AA66-459A4D3FC1D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosDb.ChangeFeed.Template.Functions", "CosmosDb.ChangeFeed.Template.Functions\CosmosDb.ChangeFeed.Template.Functions.csproj", "{1976F495-DD7C-4FA6-BE34-37DA5B9FA64E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{372C061C-8B7F-4E11-AA66-459A4D3FC1D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{372C061C-8B7F-4E11-AA66-459A4D3FC1D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{372C061C-8B7F-4E11-AA66-459A4D3FC1D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1976F495-DD7C-4FA6-BE34-37DA5B9FA64E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1976F495-DD7C-4FA6-BE34-37DA5B9FA64E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1976F495-DD7C-4FA6-BE34-37DA5B9FA64E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1976F495-DD7C-4FA6-BE34-37DA5B9FA64E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,12 +1,21 @@
 ﻿using CosmosDb.ChangeFeed.Template.Domain.Entities;
 using CosmosDb.ChangeFeed.Template.Domain.Enums;
 using Microsoft.Azure.Cosmos;
+using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace CosmosDb.ChangeFeed.Template.Persistence.Repositories;
 
-public sealed class CosmosRepository(Container container) : IRepository
+public sealed class CosmosRepository : IRepository
 {
-    private readonly Container _container = container;
+    private readonly Container _container;
+    private readonly ILogger<CosmosRepository> _logger;
+
+    public CosmosRepository(Container container, ILogger<CosmosRepository> logger)
+    {
+        _container = container;
+        _logger = logger;
+    }
 
     public async Task CreateAsync(Product product)
     {
@@ -31,7 +40,7 @@ public sealed class CosmosRepository(Container container) : IRepository
 
             return response.Resource;
         }
-        catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+        catch (CosmosException ex) when (ex.StatusCode is HttpStatusCode.NotFound)
         {
             return null;
         }
@@ -79,9 +88,48 @@ public sealed class CosmosRepository(Container container) : IRepository
         var query = new QueryDefinition($"SELECT VALUE COUNT(1) FROM c WHERE c.{nameof(Product.Status)} = @status")
             .WithParameter("@status", status);
 
-        var iterator = _container.GetItemQueryIterator<int>(query);
+        using var iterator = _container.GetItemQueryIterator<int>(query);
         var response = await iterator.ReadNextAsync();
 
+        _logger.LogInformation("{queryName} query for {status} status consumed {responseRequestCharge} RUs.",
+            "GetCountByStatusAsync",
+            status,
+            response.RequestCharge);
+
         return response.FirstOrDefault();
+    }
+
+    public async Task UpsertCounter(ProductStatus productStatus, int count)
+    {
+        var counter = new Counter
+        {
+            Id = productStatus.ToString(),
+            Count = count,
+            Type = typeof(Counter).AssemblyQualifiedName,
+        };
+
+        var response = await _container.UpsertItemAsync(counter, new PartitionKey(productStatus.ToString()));
+
+        _logger.LogInformation("{queryName} for {status} status consumed {responseRequestCharge} RUs.",
+            "UpsertItemAsync",
+            productStatus,
+            response.RequestCharge);
+    }
+
+    public async Task<int> GetCountFromCounter(ProductStatus status)
+    {
+        var counterItemResponse = await _container.ReadItemAsync<Counter>(status.ToString(), new PartitionKey(status.ToString()));
+
+        _logger.LogInformation("{queryName} for {status} status consumed {responseRequestCharge} RUs.",
+            "GetCountFromCounter",
+            status,
+            counterItemResponse.RequestCharge);
+
+        if (counterItemResponse.StatusCode == HttpStatusCode.NotFound)
+        {
+            return 0;
+        }
+
+        return counterItemResponse.Resource.Count;
     }
 }
